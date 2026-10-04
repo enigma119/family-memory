@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+:root {
+  /* Couleurs principales */
+  --background: #F8F8FA;
+  --foreground: #171717;
+  --primary: #7C5CFC;
+  --primary-hover: #6B4FE8;
+
+  /* Couleurs de génération (pastels) */
+  --gen-pink: #FFE5F0;
+  --gen-yellow: #FFF4D6;
+  --gen-turquoise: #D6F4F4;
+  --gen-lavender: #E5DCFF;
+
+  /* Couleurs de texte */
+  --text-primary: #171717;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+
+  /* Couleurs UI */
+  --border: #E5E7EB;
+  --card-bg: #FFFFFF;
+  --shadow: rgba(0, 0, 0, 0.04);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+
+  --color-gen-pink: var(--gen-pink);
+  --color-gen-yellow: var(--gen-yellow);
+  --color-gen-turquoise: var(--gen-turquoise);
+  --color-gen-lavender: var(--gen-lavender);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+
+  --color-border: var(--border);
+  --color-card-bg: var(--card-bg);
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* React Flow styles personnalisés */
+.react-flow__node {
+  cursor: pointer;
+}
+
+.react-flow__node.selected {
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+.react-flow__edge-path {
+  stroke-width: 2px !important;
+}
+
+.react-flow__edge {
+  pointer-events: all;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: var(--primary) !important;
+}
+
+/* Animations */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+}
