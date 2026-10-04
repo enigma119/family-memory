@@ -8,7 +8,7 @@ interface FamilyToolbarProps {
   zoom: number;
   onZoomChange: (zoom: number) => void;
   onSearch: (query: string) => void;
-  onAddRelative: () => void;
+  onAddRelative: (relativeToId?: string) => void;
 }
 
 export default function FamilyToolbar({
@@ -85,7 +85,7 @@ export default function FamilyToolbar({
 
             {/* Bouton ajouter un proche */}
             <button
-              onClick={onAddRelative}
+              onClick={() => onAddRelative()}
               className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-hover text-white rounded-xl text-sm font-medium transition-all shadow-sm hover:shadow-md"
             >
               <Plus className="w-4 h-4" />

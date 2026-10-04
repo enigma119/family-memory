@@ -24,7 +24,7 @@ export function createNodesFromPeople(people: PersonWithRole[]): Node[] {
       id: person.id,
       type: "person",
       position: { x: 0, y: 0 }, // Position sera calculée par ELK
-      data: person,
+      data: person as unknown as Record<string, unknown>,
       width: 160,
       height: 220,
     }));

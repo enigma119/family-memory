@@ -8,7 +8,7 @@ interface PersonPanelProps {
   onClose: () => void;
   onEdit?: (personId: string) => void;
   onDelete?: (personId: string) => void;
-  onAddRelative?: (personId: string) => void;
+  onAddRelative?: (relativeToId?: string) => void;
   onViewAsRoot?: (personId: string) => void;
   relatedPeople?: Array<{ id: string; name: string; role: string }>;
 }

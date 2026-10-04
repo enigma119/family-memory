@@ -70,7 +70,7 @@ export function createNodesWithJunctions(
         id: person.id,
         type: "person",
         position: { x: 0, y: 0 },
-        data: person,
+        data: person as unknown as Record<string, unknown>,
         width: 160,
         height: 220,
       });

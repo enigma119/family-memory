@@ -39,8 +39,8 @@ function PersonNode({ data, selected }: NodeProps) {
       />
 
       <PersonCard
-        person={data as PersonWithRole}
-        isSelected={selected}
+        person={data as unknown as PersonWithRole}
+        isSelected={selected ?? false}
         onClick={() => {}}
       />
 
@@ -82,8 +82,8 @@ export default function FamilyTreeSimple({
   onPersonSelect,
   zoom,
 }: FamilyTreeProps) {
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const [isReady, setIsReady] = useState(false);
 
   // Initialiser les nœuds et edges avec layout simple

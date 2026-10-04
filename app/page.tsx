@@ -5,26 +5,25 @@ import Header from "@/components/Header";
 import FamilyToolbar from "@/components/FamilyToolbar";
 import FamilyTree from "@/components/FamilyTree";
 import PersonPanel from "@/components/PersonPanel";
-import {
-  mockPeople,
-  mockRelationships,
-  FOCAL_PERSON_ID,
-  getPersonById,
-} from "@/lib/mock-data";
-import { enrichPeopleWithRoles } from "@/lib/family-relations";
-import { PersonWithRole } from "@/lib/types";
+import AddPersonForm from "@/components/AddPersonForm";
+import EditPersonForm from "@/components/EditPersonForm";
+import DeleteConfirmation from "@/components/DeleteConfirmation";
+import { useFamily } from "@/lib/FamilyContext";
 
 export default function Home() {
+  const { enrichedPeople, relationships, focalPersonId, setFocalPerson } = useFamily();
+
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
-  const [focalPersonId, setFocalPersonId] = useState<string>(FOCAL_PERSON_ID);
   const [zoom, setZoom] = useState(100);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Enrichir les personnes avec leurs rôles
-  const enrichedPeople = useMemo(
-    () => enrichPeopleWithRoles(mockPeople, focalPersonId, mockRelationships),
-    [focalPersonId]
-  );
+  // États pour les modals
+  const [isAddFormOpen, setIsAddFormOpen] = useState(false);
+  const [addFormRelativeTo, setAddFormRelativeTo] = useState<string | undefined>(undefined);
+  const [isEditFormOpen, setIsEditFormOpen] = useState(false);
+  const [editingPersonId, setEditingPersonId] = useState<string>("");
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+  const [deletingPersonId, setDeletingPersonId] = useState<string>("");
 
   // Filtrer les personnes selon la recherche
   const filteredPeople = useMemo(() => {
@@ -66,23 +65,23 @@ export default function Home() {
     }
   };
 
-  const handleAddRelative = () => {
-    console.log("Ajouter un proche");
-    // TODO: Ouvrir le formulaire d'ajout
+  const handleAddRelative = (relativeToId?: string) => {
+    setAddFormRelativeTo(relativeToId);
+    setIsAddFormOpen(true);
   };
 
   const handleEdit = (personId: string) => {
-    console.log("Modifier la personne:", personId);
-    // TODO: Ouvrir le formulaire de modification
+    setEditingPersonId(personId);
+    setIsEditFormOpen(true);
   };
 
   const handleDelete = (personId: string) => {
-    console.log("Supprimer la personne:", personId);
-    // TODO: Confirmation et suppression
+    setDeletingPersonId(personId);
+    setIsDeleteConfirmOpen(true);
   };
 
   const handleViewAsRoot = (personId: string) => {
-    setFocalPersonId(personId);
+    setFocalPerson(personId);
     setSelectedPersonId(null);
   };
 
@@ -100,8 +99,8 @@ export default function Home() {
       <div className="flex-1 relative overflow-hidden">
         <FamilyTree
           people={searchQuery ? filteredPeople : enrichedPeople}
-          relationships={mockRelationships}
-          selectedPersonId={selectedPersonId}
+          relationships={relationships}
+          selectedPersonId={selectedPersonId ?? undefined}
           onPersonSelect={setSelectedPersonId}
           zoom={zoom}
         />
@@ -117,6 +116,38 @@ export default function Home() {
           />
         )}
       </div>
+
+      {/* Modals */}
+      <AddPersonForm
+        isOpen={isAddFormOpen}
+        onClose={() => {
+          setIsAddFormOpen(false);
+          setAddFormRelativeTo(undefined);
+        }}
+        relativeTo={addFormRelativeTo}
+      />
+
+      {editingPersonId && (
+        <EditPersonForm
+          isOpen={isEditFormOpen}
+          onClose={() => {
+            setIsEditFormOpen(false);
+            setEditingPersonId("");
+          }}
+          personId={editingPersonId}
+        />
+      )}
+
+      {deletingPersonId && (
+        <DeleteConfirmation
+          isOpen={isDeleteConfirmOpen}
+          onClose={() => {
+            setIsDeleteConfirmOpen(false);
+            setDeletingPersonId("");
+          }}
+          personId={deletingPersonId}
+        />
+      )}
     </div>
   );
 }

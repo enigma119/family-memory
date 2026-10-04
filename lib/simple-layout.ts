@@ -33,7 +33,7 @@ export function createSimpleLayout(
         id: person.id,
         type: "person",
         position: { x, y: genY },
-        data: person,
+        data: person as unknown as Record<string, unknown>,
         width: 160,
         height: 220,
       });
